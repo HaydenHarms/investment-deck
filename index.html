@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Why I Invest the Way I Do</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Invest Thesis">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #06101C;
+  --panel:   #0C1927;
+  --panelL:  #0F1E2E;
+  --border:  #1C3050;
+  --gold:    #C9A84C;
+  --goldL:   #DDB84E;
+  --goldD:   #6E5A28;
+  --goldMut: #3A2D14;
+  --cream:   #F0EBE0;
+  --muted:   #68758A;
+  --red:     #7A2929;
+  --green:   #4A9A5A;
+  --teal:    #5A9EB8;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html, body { height:100%; }
+body {
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Jost',sans-serif;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ── Header ── */
+#hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:11px 20px;
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.hdr-mark { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--cream); letter-spacing:.5px; }
+.hdr-eyebrow { font-size:8px; letter-spacing:2.5px; color:var(--muted); text-transform:uppercase; margin-top:1px; }
+#counter { font-size:10px; color:var(--muted); letter-spacing:1px; }
+
+/* ── Slide container ── */
+#slides { flex:1; position:relative; overflow:hidden; }
+.slide {
+  position:absolute; inset:0;
+  overflow-y:auto; overflow-x:hidden;
+  padding:26px 22px 14px;
+  opacity:0; pointer-events:none;
+  transition:opacity .22s ease;
+}
+.slide.active { opacity:1; pointer-events:all; }
+.slide-inner-center {
+  height:100%;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center;
+}
+
+/* ── Nav ── */
+#nav {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 18px;
+  border-top:1px solid var(--border);
+  flex-shrink:0;
+}
+.nbtn {
+  padding:6px 16px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:2px;
+  color:var(--muted);
+  font-family:'Jost',sans-serif; font-size:11px; letter-spacing:1px;
+  cursor:pointer; transition:all .2s; flex-shrink:0;
+}
+.nbtn:not(:disabled):hover { border-color:var(--gold); color:var(--gold); }
+.nbtn:disabled { opacity:.3; cursor:not-allowed; }
+.nbtn.primary { background:var(--gold); border-color:var(--gold); color:var(--bg); }
+.nbtn.primary:hover { background:var(--goldL); }
+.nbtn.primary:disabled { background:transparent; color:var(--muted); }
+#dots { flex:1; display:flex; justify-content:center; gap:5px; align-items:center; }
+.dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--border); border:none; cursor:pointer;
+  transition:all .25s; padding:0;
+}
+.dot.active { background:var(--gold); width:14px; border-radius:3px; }
+
+/* ── Shared components ── */
+.eyebrow {
+  font-size:9px; letter-spacing:3px; color:var(--gold);
+  text-transform:uppercase; margin-bottom:8px; text-align:center;
+}
+.slide-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:27px; font-weight:400; color:var(--cream);
+  text-align:center; line-height:1.25;
+}
+.rule { width:34px; height:2px; background:var(--gold); margin:10px auto 22px; }
+.source { font-size:8px; color:var(--muted); text-align:center; margin-top:10px; letter-spacing:.5px; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:4px; }
+
+/* ── S1 Title ── */
+.title-h { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:300; color:var(--cream); line-height:1.15; margin-bottom:18px; }
+.title-by { font-size:9px; letter-spacing:3px; color:var(--muted); text-transform:uppercase; }
+
+/* ── S2 Thesis ── */
+.thesis-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.t-card { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:18px 14px; }
+.t-card-num { font-family:'Cormorant Garamond',serif; font-size:10px; color:var(--goldD); letter-spacing:2px; text-transform:uppercase; margin-bottom:7px; }
+.t-card-head { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); line-height:1.2; margin-bottom:4px; }
+.t-card-sub { font-size:10px; color:var(--gold); letter-spacing:.4px; }
+
+/* ── S3 Decisions ── */
+.d-card { background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:3px; padding:14px 16px; display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+.d-q { font-size:9px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; width:110px; flex-shrink:0; }
+.d-a { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--cream); }
+
+/* ── S4 Bessembinder ── */
+.stats-row { display:flex; gap:9px; margin-bottom:20px; }
+.stat-card { flex:1; background:var(--panel); border:1px solid var(--border); border-radius:3px; padding:13px 10px; text-align:center; }
+.stat-num { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; color:var(--gold); line-height:1; }
+.stat-sub { font-size:9px; color:var(--muted); margin-top:6px; letter-spacing:.4px; line-height:1.55; }
+.bess-wrap { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:14px 18px 0; }
+.bess-lbl { font-size:8px; letter-spacing:2px; color:var(--gold); text-transform:uppercase; text-align:center; margin-bottom:12px; }
+.bess-bars { display:flex; gap:22px; align-items:flex-end; height:120px; padding:0 16px; }
+.bess-col { flex:1; display:flex; flex-direction:column; align-items:center; height:100%; }
+.bess-sp { flex:1; }
+.bess-bar { width:100%; border-radius:3px 3px 0 0; transition:height 1.3s cubic-bezier(.4,0,.2,1); }
+.bess-gold { background:linear-gradient(to top,var(--goldD),var(--gold)); height:0; display:flex; align-items:flex-start; justify-content:center; padding-top:7px; }
+.bess-grey { background:var(--muted); opacity:.35; height:0; }
+.bess-base { height:1px; background:var(--border); margin:0 16px; }
+.bess-row { display:flex; gap:22px; padding:8px 16px 12px; }
+.bess-bl { flex:1; text-align:center; }
+.bbl-main { font-size:10px; color:var(--gold); font-weight:500; }
+.bbl-dim { color:var(--muted) !important; }
+.bbl-sub { font-size:8px; color:var(--muted); margin-top:2px; }
+
+/* ── S5 Cost ── */
+.cost-row { display:flex; align-items:center; gap:9px; margin-bottom:8px; }
+.cost-lbl { width:116px; flex-shrink:0; }
+.cost-lbl-main { font-size:11px; color:var(--cream); }
+.cost-lbl-rate { font-size:9px; color:var(--muted); }
+.cost-track { flex:1; height:28px; background:var(--panelL); border-radius:2px; overflow:hidden; }
+.cost-fill { height:100%; border-radius:2px; width:0%; transition:width 1.1s cubic-bezier(.4,0,.2,1); display:flex; align-items:center; justify-content:flex-end; padding-right:8px; }
+.cost-val { font-size:10px; font-weight:500; }
+.callout { background:var(--goldMut); border:1px solid var(--goldD); border-radius:3px; padding:12px 16px; text-align:center; margin-top:14px; }
+.callout-num { font-family:'Cormorant Garamond',serif; font-size:30px; color:var(--gold); }
+.callout-sub { font-size:9px; color:var(--muted); margin-top:3px; }
+
+/* ── S6 Mechanism ── */
+.toggle-row { display:flex; gap:8px; justify-content:center; margin-bottom:18px; }
+.tbtn { padding:6px 22px; background:transparent; border:1px solid var(--gold); border-radius:2px; color:var(--gold); font-family:'Jost',sans-serif; font-size:11px; font-weight:500; letter-spacing:2px; cursor:pointer; transition:all .25s; }
+.tbtn.on { background:var(--gold); color:var(--bg); }
+.mrow { display:flex; align-items:center; gap:7px; margin-bottom:5px; }
+.mname { width:80px; text-align:right; font-size:10px; color:var(--cream); flex-shrink:0; transition:color .5s; }
+.mname.dim { color:var(--muted); }
+.mtrack { flex:1; height:22px; background:var(--panel); border-radius:2px; overflow:hidden; }
+.mbar { height:100%; border-radius:2px; width:0%; transition:width 1.1s cubic-bezier(.4,0,.2,1), opacity .7s, background .5s; }
+.mpct { width:34px; font-size:9px; color:var(--gold); text-align:right; flex-shrink:0; transition:color .5s; }
+.mpct.dim { color:var(--muted); }
+.leg-row { display:flex; gap:12px; margin-top:12px; justify-content:center; flex-wrap:wrap; }
+.leg { display:flex; align-items:center; gap:5px; }
+.leg-dot { width:8px; height:8px; border-radius:1px; }
+.leg-lbl { font-size:8px; color:var(--muted); letter-spacing:.8px; }
+
+/* ── S7 Safe Trap ── */
+.ced-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+.ced-card { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:16px 12px; text-align:center; }
+.ced-card.win { border-color:var(--goldD); background:var(--goldMut); }
+.ced-name { font-size:9px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.ced-card.win .ced-name { color:var(--gold); }
+.ced-path { height:5px; background:linear-gradient(to right,var(--muted),var(--border)); border-radius:3px; margin:6px 0 8px; opacity:.4; }
+.ced-path-flat { height:5px; background:var(--gold); border-radius:3px; margin:6px 0 8px; opacity:.55; }
+.ced-path-lbl { font-size:8px; color:var(--muted); letter-spacing:.4px; margin-bottom:8px; }
+.ced-ruin { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:600; color:var(--muted); }
+.ced-card.win .ced-ruin { color:var(--gold); }
+.ced-ruin-sub { font-size:8px; color:var(--muted); margin-top:3px; letter-spacing:.8px; }
+.ced-note { background:var(--panel); border:1px solid var(--border); border-radius:3px; padding:10px 14px; font-size:10px; color:var(--muted); line-height:1.6; }
+
+/* ── S8 Steelman ── */
+.sm-card { background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--muted); border-radius:3px; padding:13px 15px; margin-bottom:9px; }
+.sm-head { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--cream); margin-bottom:5px; }
+.sm-body { font-size:10px; color:var(--muted); line-height:1.6; }
+
+/* ── S9 Roth ── */
+.roth-row { display:flex; align-items:center; gap:9px; margin-bottom:8px; }
+.roth-lbl { width:72px; flex-shrink:0; }
+.roth-lbl-main { font-size:11px; color:var(--cream); }
+.roth-lbl-sub { font-size:9px; color:var(--gold); }
+.roth-lbl-sub.dim { color:var(--muted); }
+.roth-track { flex:1; height:38px; background:var(--panelL); border-radius:2px; overflow:hidden; }
+.roth-fill { height:100%; width:0%; border-radius:2px; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; transition:width 1.1s cubic-bezier(.4,0,.2,1); }
+.roth-val { font-family:'Cormorant Garamond',serif; font-size:17px; color:var(--bg); font-weight:600; }
+.roth-val.light { color:var(--cream); }
+
+/* ── S10 Roster ── */
+.roster-wrap { display:grid; grid-template-columns:1fr 2px 1fr; gap:0 8px; }
+.roster-head { font-size:8px; letter-spacing:2.5px; color:var(--gold); text-transform:uppercase; text-align:center; margin-bottom:7px; }
+.roster-div { background:var(--border); border-radius:1px; margin-top:22px; }
+.ri { display:flex; align-items:center; gap:5px; padding:5px 7px; margin-bottom:3px; background:var(--panel); border:1px solid var(--border); border-radius:2px; }
+.ri.star { background:var(--goldMut); border-color:var(--goldD); }
+.ri-rank { font-size:8px; color:var(--muted); width:10px; flex-shrink:0; }
+.ri-name { font-size:10px; flex:1; color:var(--cream); }
+.ri-name.fallen { text-decoration:line-through; color:var(--muted); }
+.ri-name.survived { color:#6AAA80; }
+.ri-name.thrived { color:var(--gold); }
+.ri-star { font-size:8px; color:var(--gold); }
+
+/* ── S11 Graveyard ── */
+.gy-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.gy-card { background:var(--panel); border:1px solid var(--border); border-top:2px solid var(--red); border-radius:3px; padding:11px 10px; text-align:center; }
+.gy-name { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:500; color:var(--cream); margin-bottom:2px; }
+.gy-years { font-size:8px; color:var(--muted); letter-spacing:1px; margin-bottom:5px; }
+.gy-rule { width:14px; height:1px; background:var(--red); margin:0 auto 5px; opacity:.5; }
+.gy-epi { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11px; color:var(--muted); line-height:1.5; }
+
+/* ── S12 Portfolio ── */
+.tm-wrap { display:flex; gap:7px; }
+.tm-left { width:27%; display:flex; flex-direction:column; gap:3px; }
+.tm-head { font-size:7px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; text-align:center; margin-bottom:3px; }
+.tm-item { background:var(--panel); border:1px solid var(--border); border-radius:2px; padding:3px 6px; }
+.tm-item-name { font-size:8px; color:var(--cream); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tm-item-pct { font-size:8px; color:var(--gold); }
+.tm-others {
+  flex:1; background:var(--panelL); border:2px dashed var(--border); border-radius:4px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:18px 12px; position:relative; overflow:hidden; min-height:240px;
+}
+.tm-dots {
+  position:absolute; inset:0;
+  background-image:radial-gradient(circle,var(--border) 1px,transparent 1px);
+  background-size:10px 10px; opacity:.5;
+}
+.tm-oc { position:relative; }
+.tm-onum { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--cream); line-height:1; }
+.tm-osub { font-size:8px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin:3px 0 9px; }
+.tm-opct { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:22px; color:var(--gold); margin-bottom:10px; }
+.tm-odet { font-size:8px; color:var(--muted); line-height:1.9; letter-spacing:.4px; }
+.tm-ohr { width:22px; height:1px; background:var(--goldD); margin:0 auto 9px; }
+.leg2 { display:flex; gap:14px; justify-content:center; margin-top:9px; }
+.leg2-item { display:flex; align-items:center; gap:5px; }
+.leg2-dash { width:9px; height:2px; border-radius:1px; }
+
+/* ── S13 Close ── */
+.close-lines { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:300; color:var(--cream); line-height:1.75; }
+.close-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px; color:var(--muted); }
+
+/* ── Edit mode ── */
+.edit-mode [contenteditable="true"] {
+  outline:1px dashed var(--goldD);
+  border-radius:2px;
+  cursor:text;
+  min-width:8px;
+  display:inline-block;
+}
+.edit-mode [contenteditable="true"]:focus {
+  outline:1px solid var(--gold);
+  background:rgba(201,168,76,0.06);
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div>
+    <div class="hdr-mark">Hayden Harms</div>
+    <div class="hdr-eyebrow">Investment Thesis · 2026</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="nbtn" id="present-btn" onclick="togglePresent()">⛶ Present</button>
+    <button class="nbtn" id="edit-btn" onclick="toggleEdit()">Edit</button>
+    <div id="counter">1 / 13</div>
+  </div>
+</header>
+
+<main id="slides">
+
+<!-- 1. Title -->
+<section class="slide active" id="s1">
+  <div class="slide-inner-center">
+    <p class="eyebrow">Hayden Harms · Dallas Baptist University</p>
+    <h1 class="title-h">Why I Invest<br>the Way I Do.</h1>
+    <div class="rule"></div>
+    <p class="title-by">Not advice. Just reasoning.</p>
+  </div>
+</section>
+
+<!-- 2. Thesis -->
+<section class="slide" id="s2">
+  <p class="eyebrow">The Argument in Full</p>
+  <h2 class="slide-title">Four things. That's the whole thesis.</h2>
+  <div class="rule"></div>
+  <div class="thesis-grid">
+    <div class="t-card">
+      <div class="t-card-num">I</div>
+      <div class="t-card-head">Own the World</div>
+      <div class="t-card-sub">~9,000 companies · one fund</div>
+    </div>
+    <div class="t-card">
+      <div class="t-card-num">II</div>
+      <div class="t-card-head">Near-Zero Cost</div>
+      <div class="t-card-sub">0.07% per year</div>
+    </div>
+    <div class="t-card">
+      <div class="t-card-num">III</div>
+      <div class="t-card-head">Tax-Advantaged</div>
+      <div class="t-card-sub">Roth IRA at 21</div>
+    </div>
+    <div class="t-card">
+      <div class="t-card-num">IV</div>
+      <div class="t-card-head">Never Touch It</div>
+      <div class="t-card-sub">40+ year horizon</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Three Decisions -->
+<section class="slide" id="s3">
+  <p class="eyebrow">The Framework</p>
+  <h2 class="slide-title">Investing is three decisions, not infinite ones.</h2>
+  <div class="rule"></div>
+  <div class="d-card"><div class="d-q">What do I own?</div><div class="d-a">Asset class</div></div>
+  <div class="d-card"><div class="d-q">What does it cost?</div><div class="d-a">Expense ratio</div></div>
+  <div class="d-card"><div class="d-q">How long?</div><div class="d-a">Time horizon</div></div>
+</section>
+
+<!-- 4. Bessembinder -->
+<section class="slide" id="s4">
+  <p class="eyebrow">Visual 01 — The Odds</p>
+  <h2 class="slide-title">The Game Is Rigged. Own the Whole Board.</h2>
+  <div class="rule"></div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">4%</div>
+      <div class="stat-sub">of stocks created<br>all market wealth since 1926</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">58%</div>
+      <div class="stat-sub">failed to beat<br>T-bills over their lifetimes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">0.3%</div>
+      <div class="stat-sub">of firms drove<br>half of all gains</div>
+    </div>
+  </div>
+  <div class="bess-wrap">
+    <div class="bess-lbl">Net Wealth Created · ~25,300 US Stocks · 1926–2016</div>
+    <div class="bess-bars">
+      <div class="bess-col"><div class="bess-sp"></div><div class="bess-bar bess-gold" id="bg"><span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:var(--bg);">ALL</span></div></div>
+      <div class="bess-col"><div class="bess-sp"></div><div class="bess-bar bess-grey" id="bm"></div></div>
+    </div>
+    <div class="bess-base"></div>
+    <div class="bess-row">
+      <div class="bess-bl"><div class="bbl-main">Top 4%</div><div class="bbl-sub">~1,092 stocks</div></div>
+      <div class="bess-bl"><div class="bbl-main bbl-dim">Other 96%</div><div class="bbl-sub">= T-bill returns</div></div>
+    </div>
+  </div>
+  <div class="source">Bessembinder (2018) · Do Stocks Outperform Treasury Bills?</div>
+</section>
+
+<!-- 5. Cost -->
+<section class="slide" id="s5">
+  <p class="eyebrow">Visual 02 — The Cost</p>
+  <h2 class="slide-title">Cost Is a Tax You Pay Forever.</h2>
+  <div class="rule"></div>
+  <div style="font-size:9px;color:var(--muted);text-align:center;margin-bottom:14px;letter-spacing:.5px;">$500 / month · 40 years · 7% gross return</div>
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 14px 6px;">
+    <div class="cost-row">
+      <div class="cost-lbl"><div class="cost-lbl-main">VT</div><div class="cost-lbl-rate" style="color:var(--gold);">0.07% / yr</div></div>
+      <div class="cost-track"><div class="cost-fill" id="cf-vt" style="background:linear-gradient(to right,var(--goldD),var(--gold));"><span class="cost-val" style="color:var(--bg);">$1,209,000</span></div></div>
+    </div>
+    <div class="cost-row">
+      <div class="cost-lbl"><div class="cost-lbl-main">Active Fund</div><div class="cost-lbl-rate">1.00% / yr</div></div>
+      <div class="cost-track"><div class="cost-fill" id="cf-act" style="background:var(--muted);opacity:.6;"><span class="cost-val" style="color:var(--cream);">$954,000</span></div></div>
+    </div>
+    <div class="cost-row" style="margin-bottom:0;">
+      <div class="cost-lbl"><div class="cost-lbl-main">Advisor + Fund</div><div class="cost-lbl-rate">2.00% / yr</div></div>
+      <div class="cost-track"><div class="cost-fill" id="cf-adv" style="background:var(--muted);opacity:.35;"><span class="cost-val" style="color:var(--cream);">$741,000</span></div></div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-num">$468,000</div>
+    <div class="callout-sub">lost to fees on $240,000 contributed — advisor+fund vs VT</div>
+  </div>
+  <div class="source">Assumes $500/mo · 7% gross · 40 year horizon</div>
+</section>
+
+<!-- 6. Mechanism -->
+<section class="slide" id="s6">
+  <p class="eyebrow">Visual 03 — The Mechanism</p>
+  <h2 class="slide-title">The Index Runs Its Own HR Department.</h2>
+  <div class="rule"></div>
+  <div class="toggle-row">
+    <button class="tbtn on" id="t2000" onclick="setYear('2000')">2000</button>
+    <button class="tbtn" id="t2024" onclick="setYear('2024')">2024</button>
+  </div>
+  <div id="mrows"></div>
+  <div class="leg-row">
+    <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div><span class="leg-lbl">New Winner</span></div>
+    <div class="leg"><div class="leg-dot" style="background:var(--green)"></div><span class="leg-lbl">Survivor</span></div>
+    <div class="leg"><div class="leg-dot" style="background:var(--red)"></div><span class="leg-lbl">Declined</span></div>
+    <div class="leg"><div class="leg-dot" style="background:var(--goldD)"></div><span class="leg-lbl">Mixed</span></div>
+  </div>
+</section>
+
+<!-- 7. Safe Trap -->
+<section class="slide" id="s7">
+  <p class="eyebrow">Visual 04 — The "Safe" Trap</p>
+  <h2 class="slide-title">Bonds Weren't the Safe Harbor.</h2>
+  <div class="rule"></div>
+  <div class="ced-grid">
+    <div class="ced-card">
+      <div class="ced-name">Target Date Fund</div>
+      <div class="ced-path"></div>
+      <div class="ced-path-lbl">90% equity → 17% at retirement</div>
+      <div class="ced-ruin">19.7%</div>
+      <div class="ced-ruin-sub">probability of ruin</div>
+    </div>
+    <div class="ced-card win">
+      <div class="ced-name">All-Equity Global</div>
+      <div class="ced-path-flat"></div>
+      <div class="ced-path-lbl">100% equity throughout</div>
+      <div class="ced-ruin">7.0%</div>
+      <div class="ced-ruin-sub">probability of ruin</div>
+    </div>
+  </div>
+  <div class="ced-note">International diversification outperformed bonds as a safe harbor. Adding bonds increased the probability of ruin relative to removing them entirely.</div>
+  <div class="source">Anarkulova, Cederburg & O'Doherty (2025) · 39 countries · 1890–2023 · 1M simulations</div>
+</section>
+
+<!-- 8. Steelman -->
+<section class="slide" id="s8">
+  <p class="eyebrow">The Honest Part</p>
+  <h2 class="slide-title">What smart people say back.</h2>
+  <div class="rule"></div>
+  <div class="sm-card">
+    <div class="sm-head">Sequence-of-returns risk</div>
+    <div class="sm-body">A crash near retirement is disproportionately costly. The paper's counterargument: international diversification hedges this better than bonds historically have.</div>
+  </div>
+  <div class="sm-card">
+    <div class="sm-head">The US may have been exceptional</div>
+    <div class="sm-body">Cederburg uses global data precisely because US-only returns may overstate expectations. Survivor bias in any historical dataset is real.</div>
+  </div>
+  <div class="sm-card">
+    <div class="sm-head">Behavioral risk</div>
+    <div class="sm-body">The optimal portfolio on paper is not optimal if you sell in a 50% drawdown. Most people cannot hold through one. That is the actual variable.</div>
+  </div>
+  <div class="sm-card">
+    <div class="sm-head">Early retirement access</div>
+    <div class="sm-body">"Never touch it" means don't panic sell — not that you can't access the money. Roth contributions (not earnings) are withdrawable anytime. A taxable brokerage bridges from early retirement to 59½. The Roth conversion ladder extends that further for anyone who plans five years ahead.</div>
+  </div>
+</section>
+
+<!-- 9. Roth -->
+<section class="slide" id="s9">
+  <p class="eyebrow">The Roth IRA</p>
+  <h2 class="slide-title">Pay Tax Once. Never Again.</h2>
+  <div class="rule"></div>
+  <div style="font-size:9px;color:var(--muted);text-align:center;margin-bottom:14px;letter-spacing:.5px;">$7,000 / year · 40 years · 7% return</div>
+  <div style="margin-bottom:14px;">
+    <div class="roth-row">
+      <div class="roth-lbl"><div class="roth-lbl-main">Roth IRA</div><div class="roth-lbl-sub">Tax-free forever</div></div>
+      <div class="roth-track"><div class="roth-fill" id="rf-roth" style="background:linear-gradient(to right,var(--goldD),var(--gold));"><span class="roth-val">$1,397,000</span></div></div>
+    </div>
+    <div class="roth-row">
+      <div class="roth-lbl"><div class="roth-lbl-main">Taxable</div><div class="roth-lbl-sub dim">20% LTCG</div></div>
+      <div class="roth-track"><div class="roth-fill" id="rf-tax" style="background:var(--muted);opacity:.5;"><span class="roth-val light">$1,174,000</span></div></div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-num">$223,000</div>
+    <div class="callout-sub">from the account type alone · no extra risk · no extra contribution</div>
+  </div>
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:3px;padding:10px 14px;margin-top:10px;font-size:10px;color:var(--muted);line-height:1.6;">
+    Contributions (not earnings) can be withdrawn anytime, penalty-free. For early retirement, a taxable brokerage bridges to 59½ — the Roth compounds untouched in the background.
+  </div>
+  <div class="source">Taxable assumes buy-and-hold · 20% LTCG on gains at liquidation</div>
+</section>
+
+<!-- 10. Roster -->
+<section class="slide" id="s10">
+  <p class="eyebrow">Visual 06 — The Roster</p>
+  <h2 class="slide-title">The Roster Changed. You Didn't Have To.</h2>
+  <div class="rule"></div>
+  <div class="roster-wrap">
+    <div>
+      <div class="roster-head">2000</div>
+      <div class="ri"><span class="ri-rank">1</span><span class="ri-name fallen">General Electric</span></div>
+      <div class="ri"><span class="ri-rank">2</span><span class="ri-name survived">ExxonMobil</span></div>
+      <div class="ri"><span class="ri-rank">3</span><span class="ri-name survived">Pfizer</span></div>
+      <div class="ri"><span class="ri-rank">4</span><span class="ri-name fallen">Citigroup</span></div>
+      <div class="ri"><span class="ri-rank">5</span><span class="ri-name survived">Walmart</span></div>
+      <div class="ri"><span class="ri-rank">6</span><span class="ri-name fallen">Cisco</span></div>
+      <div class="ri"><span class="ri-rank">7</span><span class="ri-name fallen">AIG</span></div>
+      <div class="ri"><span class="ri-rank">8</span><span class="ri-name fallen">Intel</span></div>
+      <div class="ri"><span class="ri-rank">9</span><span class="ri-name thrived">Microsoft</span></div>
+      <div class="ri"><span class="ri-rank">10</span><span class="ri-name fallen">SBC Comms.</span></div>
+    </div>
+    <div class="roster-div"></div>
+    <div>
+      <div class="roster-head">2024</div>
+      <div class="ri"><span class="ri-rank">1</span><span class="ri-name">Apple</span></div>
+      <div class="ri star"><span class="ri-rank">2</span><span class="ri-name" style="color:var(--gold)">Microsoft</span><span class="ri-star">★</span></div>
+      <div class="ri"><span class="ri-rank">3</span><span class="ri-name">Nvidia</span></div>
+      <div class="ri"><span class="ri-rank">4</span><span class="ri-name">Amazon</span></div>
+      <div class="ri"><span class="ri-rank">5</span><span class="ri-name">Alphabet</span></div>
+      <div class="ri"><span class="ri-rank">6</span><span class="ri-name">Meta</span></div>
+      <div class="ri"><span class="ri-rank">7</span><span class="ri-name">Berkshire</span></div>
+      <div class="ri"><span class="ri-rank">8</span><span class="ri-name">Eli Lilly</span></div>
+      <div class="ri"><span class="ri-rank">9</span><span class="ri-name">Broadcom</span></div>
+      <div class="ri star"><span class="ri-rank">10</span><span class="ri-name" style="color:var(--gold)">ExxonMobil</span><span class="ri-star">★</span></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px;margin-top:10px;justify-content:center;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:5px;"><div style="width:9px;height:9px;background:var(--goldMut);border:1px solid var(--goldD);border-radius:1px;"></div><span style="font-size:8px;color:var(--muted);">Still in top 10</span></div>
+    <div style="display:flex;align-items:center;gap:5px;"><span style="font-size:9px;color:var(--muted);text-decoration:line-through;">Name</span><span style="font-size:8px;color:var(--muted);">Fell out</span></div>
+  </div>
+</section>
+
+<!-- 11. Graveyard -->
+<section class="slide" id="s11">
+  <p class="eyebrow">Visual 07 — The Fallen</p>
+  <h2 class="slide-title">Household Names. Safe Bets. Gone.</h2>
+  <div class="rule"></div>
+  <div class="gy-grid">
+    <div class="gy-card"><div class="gy-name">Kodak</div><div class="gy-years">1892 – 2012</div><div class="gy-rule"></div><div class="gy-epi">Invented digital photography. Buried by it.</div></div>
+    <div class="gy-card"><div class="gy-name">Blockbuster</div><div class="gy-years">1985 – 2010</div><div class="gy-rule"></div><div class="gy-epi">Passed on buying Netflix for $50M.</div></div>
+    <div class="gy-card"><div class="gy-name">Lehman Brothers</div><div class="gy-years">1847 – 2008</div><div class="gy-rule"></div><div class="gy-epi">Largest US bankruptcy in history.</div></div>
+    <div class="gy-card"><div class="gy-name">Circuit City</div><div class="gy-years">1949 – 2008</div><div class="gy-rule"></div><div class="gy-epi">Lost to Best Buy. Then lost to Amazon.</div></div>
+    <div class="gy-card"><div class="gy-name">Enron</div><div class="gy-years">1985 – 2001</div><div class="gy-rule"></div><div class="gy-epi">"Most Innovative Company" six years running.</div></div>
+    <div class="gy-card"><div class="gy-name">Bear Stearns</div><div class="gy-years">1923 – 2008</div><div class="gy-rule"></div><div class="gy-epi">Sold to JPMorgan for $2 per share.</div></div>
+    <div class="gy-card"><div class="gy-name">Nokia</div><div class="gy-years">1865 – 2014</div><div class="gy-rule"></div><div class="gy-epi">Built the phone. Missed the smartphone.</div></div>
+    <div class="gy-card"><div class="gy-name">Sears</div><div class="gy-years">1886 – 2018</div><div class="gy-rule"></div><div class="gy-epi">The original everything store. Then Amazon was.</div></div>
+  </div>
+</section>
+
+<!-- 12. Portfolio -->
+<section class="slide" id="s12">
+  <p class="eyebrow">Visual 08 — The Portfolio</p>
+  <h2 class="slide-title">VT: The Entire World, One Ticker.</h2>
+  <div class="rule"></div>
+  <div class="tm-wrap">
+    <div class="tm-left">
+      <div class="tm-head">Top Holdings</div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Apple</div><div class="tm-item-pct">4.2%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Microsoft</div><div class="tm-item-pct">3.9%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Nvidia</div><div class="tm-item-pct">3.5%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Amazon</div><div class="tm-item-pct">2.4%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Alphabet</div><div class="tm-item-pct">2.0%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Meta</div><div class="tm-item-pct">1.3%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Berkshire</div><div class="tm-item-pct">0.9%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--teal)"><div class="tm-item-name">TSMC</div><div class="tm-item-pct">0.8%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--gold)"><div class="tm-item-name">Eli Lilly</div><div class="tm-item-pct">0.7%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--teal)"><div class="tm-item-name">Samsung</div><div class="tm-item-pct">0.6%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--teal)"><div class="tm-item-name">ASML</div><div class="tm-item-pct">0.5%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--teal)"><div class="tm-item-name">Novo Nordisk</div><div class="tm-item-pct">0.5%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--teal)"><div class="tm-item-name">Nestlé</div><div class="tm-item-pct">0.4%</div></div>
+      <div class="tm-item" style="border-left:3px solid var(--teal)"><div class="tm-item-name">Toyota</div><div class="tm-item-pct">0.4%</div></div>
+    </div>
+    <div class="tm-others">
+      <div class="tm-dots"></div>
+      <div class="tm-oc">
+        <div class="tm-onum">9,000+</div>
+        <div class="tm-osub">companies</div>
+        <div class="tm-opct">77.4%</div>
+        <div class="tm-ohr"></div>
+        <div class="tm-odet">45+ countries<br>every sector<br>all market caps</div>
+      </div>
+    </div>
+  </div>
+  <div class="leg2">
+    <div class="leg2-item"><div class="leg2-dash" style="background:var(--gold);"></div><span style="font-size:8px;color:var(--muted);">US Equity</span></div>
+    <div class="leg2-item"><div class="leg2-dash" style="background:var(--teal);"></div><span style="font-size:8px;color:var(--muted);">International</span></div>
+  </div>
+  <div class="source">Expense ratio: 0.07% · Vanguard Total World Stock ETF</div>
+</section>
+
+<!-- 13. Close -->
+<section class="slide" id="s13">
+  <div class="slide-inner-center">
+    <div class="close-lines">
+      Buy the world.<br>
+      Keep costs near zero.<br>
+      Max the tax wrapper.<br>
+      Never touch it.
+    </div>
+    <div class="rule" style="margin-top:26px;"></div>
+    <div class="close-sub">The hard part isn't knowing this.</div>
+  </div>
+</section>
+
+</main>
+
+<nav id="nav">
+  <button class="nbtn" id="pbtn" onclick="go(-1)" disabled>← Prev</button>
+  <div id="dots"></div>
+  <button class="nbtn primary" id="nbtn" onclick="go(1)">Next →</button>
+</nav>
+
+<script>
+const N = 13;
+let cur = 0;
+let mechBuilt = false;
+let mechYear = '2000';
+
+const MDATA = [
+  {id:'apple',  n:'Apple',       p00:0.2,  p24:27.8, fate:'winner'},
+  {id:'nvidia', n:'Nvidia',      p00:0.3,  p24:21.7, fate:'winner'},
+  {id:'msft',   n:'Microsoft',   p00:13.8, p24:24.7, fate:'survivor'},
+  {id:'amzn',   n:'Amazon',      p00:0.8,  p24:9.9,  fate:'winner'},
+  {id:'goog',   n:'Alphabet',    p00:0.0,  p24:7.9,  fate:'winner'},
+  {id:'ge',     n:'GE',          p00:21.7, p24:0.5,  fate:'fallen'},
+  {id:'cisco',  n:'Cisco',       p00:17.8, p24:0.8,  fate:'fallen'},
+  {id:'xom',    n:'ExxonMobil',  p00:7.9,  p24:1.4,  fate:'fallen'},
+  {id:'nokia',  n:'Nokia',       p00:9.9,  p24:0.1,  fate:'fallen'},
+  {id:'rest',   n:'All Others',  p00:27.6, p24:5.2,  fate:'mixed'},
+];
+const S00 = MDATA.reduce((a,c)=>a+c.p00,0);
+const S24 = MDATA.reduce((a,c)=>a+c.p24,0);
+MDATA.forEach(c=>{c.n00=c.p00/S00*100; c.n24=c.p24/S24*100;});
+const FC = {winner:'#C9A84C', survivor:'#4A9A5A', fallen:'#7A2929', mixed:'#6E5A28'};
+
+function buildMech() {
+  const el = document.getElementById('mrows');
+  el.innerHTML = '';
+  MDATA.forEach(c => {
+    el.innerHTML += `<div class="mrow">
+      <div class="mname" id="mn-${c.id}">${c.n}</div>
+      <div class="mtrack"><div class="mbar" id="mb-${c.id}" style="background:${FC[c.fate]};"></div></div>
+      <div class="mpct" id="mp-${c.id}"></div>
+    </div>`;
+  });
+}
+
+function setYear(y) {
+  mechYear = y;
+  document.getElementById('t2000').classList.toggle('on', y==='2000');
+  document.getElementById('t2024').classList.toggle('on', y==='2024');
+  MDATA.forEach(c => {
+    const pct = y==='2000' ? c.n00 : c.n24;
+    const bar = document.getElementById('mb-'+c.id);
+    const nm  = document.getElementById('mn-'+c.id);
+    const pp  = document.getElementById('mp-'+c.id);
+    if(!bar) return;
+    bar.style.width = Math.max(pct, pct>0.05?0.5:0)+'%';
+    bar.style.opacity = pct<2 ? '0.3' : '0.85';
+    const dim = pct<2;
+    nm.className = 'mname'+(dim?' dim':'');
+    pp.className = 'mpct'+(dim?' dim':'');
+    pp.textContent = pct<0.5 ? '<1%' : Math.round(pct)+'%';
+  });
+}
+
+function onEnter(idx) {
+  if(idx===3) {
+    setTimeout(()=>{
+      const g=document.getElementById('bg');
+      const m=document.getElementById('bm');
+      if(g) g.style.height='118px';
+      if(m) m.style.height='6px';
+    },160);
+  }
+  if(idx===4) {
+    setTimeout(()=>{
+      const vt=document.getElementById('cf-vt');
+      const ac=document.getElementById('cf-act');
+      const ad=document.getElementById('cf-adv');
+      if(vt) vt.style.width='100%';
+      if(ac) ac.style.width='78.9%';
+      if(ad) ad.style.width='61.3%';
+    },160);
+  }
+  if(idx===5) {
+    if(!mechBuilt){ buildMech(); mechBuilt=true; }
+    setTimeout(()=>setYear(mechYear),160);
+  }
+  if(idx===8) {
+    setTimeout(()=>{
+      const r=document.getElementById('rf-roth');
+      const t=document.getElementById('rf-tax');
+      if(r) r.style.width='100%';
+      if(t) t.style.width='84%';
+    },160);
+  }
+}
+
+function render() {
+  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===cur));
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  document.getElementById('counter').textContent = `${cur+1} / ${N}`;
+  document.getElementById('pbtn').disabled = cur===0;
+  const nb = document.getElementById('nbtn');
+  nb.disabled = cur===N-1;
+  nb.className = 'nbtn'+(cur<N-1?' primary':'');
+}
+
+function go(dir) {
+  const nxt = cur+dir;
+  if(nxt<0||nxt>=N) return;
+  cur=nxt;
+  render();
+  onEnter(cur);
+}
+
+function goTo(idx) { cur=idx; render(); onEnter(cur); }
+
+// Init dots
+(function(){
+  const d=document.getElementById('dots');
+  for(let i=0;i<N;i++){
+    const b=document.createElement('button');
+    b.className='dot'+(i===0?' active':'');
+    b.setAttribute('aria-label','Slide '+(i+1));
+    b.onclick=()=>goTo(i);
+    d.appendChild(b);
+  }
+})();
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+window.go=go;
+window.goTo=goTo;
+window.setYear=setYear;
+
+// ── Edit mode ─────────────────────────────────────────────────────────────────
+const EDIT_SEL = [
+  '.eyebrow','.slide-title','.title-h','.title-by',
+  '.stat-num','.stat-sub','.callout-num','.callout-sub',
+  '.t-card-head','.t-card-sub','.t-card-num',
+  '.d-q','.d-a',
+  '.sm-head','.sm-body',
+  '.bbl-main','.bbl-sub','.bess-lbl',
+  '.ced-name','.ced-ruin','.ced-ruin-sub','.ced-path-lbl','.ced-note',
+  '.roth-lbl-main','.roth-lbl-sub','.roth-val',
+  '.gy-name','.gy-years','.gy-epi',
+  '.tm-item-name','.tm-item-pct','.tm-onum','.tm-osub','.tm-opct','.tm-odet',
+  '.close-lines','.close-sub',
+  '.source','.cost-lbl-main','.cost-lbl-rate','.cost-val',
+  '.roster-head','.ri-name',
+  '.hdr-mark','.hdr-eyebrow',
+].join(',');
+
+let editMode = false;
+
+function toggleEdit() {
+  editMode = !editMode;
+  document.querySelectorAll(EDIT_SEL).forEach(el => {
+    el.contentEditable = editMode ? 'true' : 'false';
+  });
+  document.body.classList.toggle('edit-mode', editMode);
+  const btn = document.getElementById('edit-btn');
+  btn.textContent = editMode ? 'Done' : 'Edit';
+  btn.className = editMode ? 'nbtn primary' : 'nbtn';
+}
+window.toggleEdit = toggleEdit;
+
+// ── Fullscreen / Present ──────────────────────────────────────────────────────
+function togglePresent() {
+  const el = document.documentElement;
+  const isFs = document.fullscreenElement || document.webkitFullscreenElement;
+  if (!isFs) {
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
+
+function onFsChange() {
+  const isFs = document.fullscreenElement || document.webkitFullscreenElement;
+  const btn = document.getElementById('present-btn');
+  btn.textContent = isFs ? '✕ Exit' : '⛶ Present';
+  btn.className = isFs ? 'nbtn primary' : 'nbtn';
+}
+
+document.addEventListener('fullscreenchange', onFsChange);
+document.addEventListener('webkitfullscreenchange', onFsChange);
+window.togglePresent = togglePresent;
+
+onEnter(0);
+</script>
+</body>
+</html>
