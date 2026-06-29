@@ -1,7 +1,7 @@
 {
   "short_name": "Thesis",
   "name": "Why I Invest the Way I Do",
-  "start_url": "investment-deck.html",
+  "start_url": "index.html",
   "background_color": "#06101C",
   "theme_color": "#06101C",
   "display": "standalone",
