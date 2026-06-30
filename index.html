@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>Why I Invest the Way I Do</title>
-
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Invest Thesis">
-<link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:      #06101C;
@@ -36,12 +34,13 @@ body {
   display:flex;
   flex-direction:column;
   overflow:hidden;
+  overscroll-behavior:none;
 }
 
 /* ── Header ── */
 #hdr {
   display:flex; align-items:center; justify-content:space-between;
-  padding:11px 20px;
+  padding:11px calc(20px + env(safe-area-inset-right)) 11px calc(20px + env(safe-area-inset-left));
   border-bottom:1px solid var(--border);
   flex-shrink:0;
 }
@@ -50,17 +49,23 @@ body {
 #counter { font-size:10px; color:var(--muted); letter-spacing:1px; }
 
 /* ── Slide container ── */
-#slides { flex:1; position:relative; overflow:hidden; }
+#slides { flex:1; position:relative; overflow:hidden; min-height:0; }
 .slide {
   position:absolute; inset:0;
-  overflow-y:auto; overflow-x:hidden;
-  padding:26px 22px 14px;
+  display:flex; justify-content:center; align-items:center;
+  overflow:hidden;
+  padding:18px calc(18px + env(safe-area-inset-right)) 10px calc(18px + env(safe-area-inset-left));
   opacity:0; pointer-events:none;
   transition:opacity .22s ease;
 }
 .slide.active { opacity:1; pointer-events:all; }
+.stage {
+  width:100%;
+  flex-shrink:0;
+  transform-origin:top center;
+}
 .slide-inner-center {
-  height:100%;
+  min-height:460px;
   display:flex; flex-direction:column;
   justify-content:center; align-items:center;
   text-align:center;
@@ -69,7 +74,7 @@ body {
 /* ── Nav ── */
 #nav {
   display:flex; align-items:center; gap:10px;
-  padding:10px 18px;
+  padding:10px calc(18px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left));
   border-top:1px solid var(--border);
   flex-shrink:0;
 }
@@ -87,6 +92,16 @@ body {
 .nbtn.primary { background:var(--gold); border-color:var(--gold); color:var(--bg); }
 .nbtn.primary:hover { background:var(--goldL); }
 .nbtn.primary:disabled { background:transparent; color:var(--muted); }
+
+/* ── Short-landscape (iPhone in landscape) ── */
+@media (max-height:430px) {
+  #hdr { padding-top:6px; padding-bottom:6px; }
+  .hdr-eyebrow { display:none; }
+  .hdr-mark { font-size:13px; }
+  #nav { padding-top:6px; padding-bottom:max(6px, env(safe-area-inset-bottom)); }
+  .nbtn { padding:5px 13px; font-size:10px; }
+  .slide { padding-top:8px; padding-bottom:6px; }
+}
 #dots { flex:1; display:flex; justify-content:center; gap:5px; align-items:center; }
 .dot {
   width:5px; height:5px; border-radius:50%;
@@ -286,17 +301,17 @@ body {
 <main id="slides">
 
 <!-- 1. Title -->
-<section class="slide active" id="s1">
+<section class="slide active" id="s1"><div class="stage">
   <div class="slide-inner-center">
     <p class="eyebrow">Hayden Harms · Dallas Baptist University</p>
     <h1 class="title-h">Why I Invest<br>the Way I Do.</h1>
     <div class="rule"></div>
     <p class="title-by">Not advice. Just reasoning.</p>
   </div>
-</section>
+</div></section>
 
 <!-- 2. Thesis -->
-<section class="slide" id="s2">
+<section class="slide" id="s2"><div class="stage">
   <p class="eyebrow">The Argument in Full</p>
   <h2 class="slide-title">Four things. That's the whole thesis.</h2>
   <div class="rule"></div>
@@ -322,20 +337,20 @@ body {
       <div class="t-card-sub">40+ year horizon</div>
     </div>
   </div>
-</section>
+</div></section>
 
 <!-- 3. Three Decisions -->
-<section class="slide" id="s3">
+<section class="slide" id="s3"><div class="stage">
   <p class="eyebrow">The Framework</p>
   <h2 class="slide-title">Investing is three decisions, not infinite ones.</h2>
   <div class="rule"></div>
   <div class="d-card"><div class="d-q">What do I own?</div><div class="d-a">Asset class</div></div>
   <div class="d-card"><div class="d-q">What does it cost?</div><div class="d-a">Expense ratio</div></div>
   <div class="d-card"><div class="d-q">How long?</div><div class="d-a">Time horizon</div></div>
-</section>
+</div></section>
 
 <!-- 4. Bessembinder -->
-<section class="slide" id="s4">
+<section class="slide" id="s4"><div class="stage">
   <p class="eyebrow">Visual 01 — The Odds</p>
   <h2 class="slide-title">The Game Is Rigged. Own the Whole Board.</h2>
   <div class="rule"></div>
@@ -366,10 +381,10 @@ body {
     </div>
   </div>
   <div class="source">Bessembinder (2018) · Do Stocks Outperform Treasury Bills?</div>
-</section>
+</div></section>
 
 <!-- 5. Cost -->
-<section class="slide" id="s5">
+<section class="slide" id="s5"><div class="stage">
   <p class="eyebrow">Visual 02 — The Cost</p>
   <h2 class="slide-title">Cost Is a Tax You Pay Forever.</h2>
   <div class="rule"></div>
@@ -393,10 +408,10 @@ body {
     <div class="callout-sub">lost to fees on $240,000 contributed — advisor+fund vs VT</div>
   </div>
   <div class="source">Assumes $500/mo · 7% gross · 40 year horizon</div>
-</section>
+</div></section>
 
 <!-- 6. Mechanism -->
-<section class="slide" id="s6">
+<section class="slide" id="s6"><div class="stage">
   <p class="eyebrow">Visual 03 — The Mechanism</p>
   <h2 class="slide-title">The Index Runs Its Own HR Department.</h2>
   <div class="rule"></div>
@@ -411,10 +426,10 @@ body {
     <div class="leg"><div class="leg-dot" style="background:var(--red)"></div><span class="leg-lbl">Declined</span></div>
     <div class="leg"><div class="leg-dot" style="background:var(--goldD)"></div><span class="leg-lbl">Mixed</span></div>
   </div>
-</section>
+</div></section>
 
 <!-- 7. Safe Trap -->
-<section class="slide" id="s7">
+<section class="slide" id="s7"><div class="stage">
   <p class="eyebrow">Visual 04 — The "Safe" Trap</p>
   <h2 class="slide-title">Bonds Weren't the Safe Harbor.</h2>
   <div class="rule"></div>
@@ -436,10 +451,10 @@ body {
   </div>
   <div class="ced-note">International diversification outperformed bonds as a safe harbor. Adding bonds increased the probability of ruin relative to removing them entirely.</div>
   <div class="source">Anarkulova, Cederburg & O'Doherty (2025) · 39 countries · 1890–2023 · 1M simulations</div>
-</section>
+</div></section>
 
 <!-- 8. Steelman -->
-<section class="slide" id="s8">
+<section class="slide" id="s8"><div class="stage">
   <p class="eyebrow">The Honest Part</p>
   <h2 class="slide-title">What smart people say back.</h2>
   <div class="rule"></div>
@@ -459,10 +474,10 @@ body {
     <div class="sm-head">Early retirement access</div>
     <div class="sm-body">"Never touch it" means don't panic sell — not that you can't access the money. Roth contributions (not earnings) are withdrawable anytime. A taxable brokerage bridges from early retirement to 59½. The Roth conversion ladder extends that further for anyone who plans five years ahead.</div>
   </div>
-</section>
+</div></section>
 
 <!-- 9. Roth -->
-<section class="slide" id="s9">
+<section class="slide" id="s9"><div class="stage">
   <p class="eyebrow">The Roth IRA</p>
   <h2 class="slide-title">Pay Tax Once. Never Again.</h2>
   <div class="rule"></div>
@@ -485,10 +500,10 @@ body {
     Contributions (not earnings) can be withdrawn anytime, penalty-free. For early retirement, a taxable brokerage bridges to 59½ — the Roth compounds untouched in the background.
   </div>
   <div class="source">Taxable assumes buy-and-hold · 20% LTCG on gains at liquidation</div>
-</section>
+</div></section>
 
 <!-- 10. Roster -->
-<section class="slide" id="s10">
+<section class="slide" id="s10"><div class="stage">
   <p class="eyebrow">Visual 06 — The Roster</p>
   <h2 class="slide-title">The Roster Changed. You Didn't Have To.</h2>
   <div class="rule"></div>
@@ -525,10 +540,10 @@ body {
     <div style="display:flex;align-items:center;gap:5px;"><div style="width:9px;height:9px;background:var(--goldMut);border:1px solid var(--goldD);border-radius:1px;"></div><span style="font-size:8px;color:var(--muted);">Still in top 10</span></div>
     <div style="display:flex;align-items:center;gap:5px;"><span style="font-size:9px;color:var(--muted);text-decoration:line-through;">Name</span><span style="font-size:8px;color:var(--muted);">Fell out</span></div>
   </div>
-</section>
+</div></section>
 
 <!-- 11. Graveyard -->
-<section class="slide" id="s11">
+<section class="slide" id="s11"><div class="stage">
   <p class="eyebrow">Visual 07 — The Fallen</p>
   <h2 class="slide-title">Household Names. Safe Bets. Gone.</h2>
   <div class="rule"></div>
@@ -542,10 +557,10 @@ body {
     <div class="gy-card"><div class="gy-name">Nokia</div><div class="gy-years">1865 – 2014</div><div class="gy-rule"></div><div class="gy-epi">Built the phone. Missed the smartphone.</div></div>
     <div class="gy-card"><div class="gy-name">Sears</div><div class="gy-years">1886 – 2018</div><div class="gy-rule"></div><div class="gy-epi">The original everything store. Then Amazon was.</div></div>
   </div>
-</section>
+</div></section>
 
 <!-- 12. Portfolio -->
-<section class="slide" id="s12">
+<section class="slide" id="s12"><div class="stage">
   <p class="eyebrow">Visual 08 — The Portfolio</p>
   <h2 class="slide-title">VT: The Entire World, One Ticker.</h2>
   <div class="rule"></div>
@@ -583,10 +598,10 @@ body {
     <div class="leg2-item"><div class="leg2-dash" style="background:var(--teal);"></div><span style="font-size:8px;color:var(--muted);">International</span></div>
   </div>
   <div class="source">Expense ratio: 0.07% · Vanguard Total World Stock ETF</div>
-</section>
+</div></section>
 
 <!-- 13. Close -->
-<section class="slide" id="s13">
+<section class="slide" id="s13"><div class="stage">
   <div class="slide-inner-center">
     <div class="close-lines">
       Buy the world.<br>
@@ -597,7 +612,7 @@ body {
     <div class="rule" style="margin-top:26px;"></div>
     <div class="close-sub">The hard part isn't knowing this.</div>
   </div>
-</section>
+</div></section>
 
 </main>
 
@@ -704,15 +719,64 @@ function render() {
   nb.className = 'nbtn'+(cur<N-1?' primary':'');
 }
 
+// ── Auto-fit: scale each slide's content to exactly fill the available
+// screen space (no scrolling, no overflow) — critical for short iPhone
+// landscape viewports where vertical space is tight.
+function fitStage(slideEl) {
+  if (!slideEl) return;
+  const stage = slideEl.querySelector('.stage');
+  if (!stage) return;
+  stage.style.transform = 'none';
+  stage.style.width = '';
+  const rect = slideEl.getBoundingClientRect();
+  const cs = getComputedStyle(slideEl);
+  const padL = parseFloat(cs.paddingLeft) || 0, padR = parseFloat(cs.paddingRight) || 0;
+  const padT = parseFloat(cs.paddingTop)  || 0, padB = parseFloat(cs.paddingBottom) || 0;
+  const availW = rect.width  - padL - padR;
+  const availH = rect.height - padT - padB;
+  if (availW <= 0 || availH <= 0) return;
+
+  stage.style.width = Math.min(availW, 1000) + 'px';
+  let h = stage.scrollHeight;
+  let scale = Math.min(1, availH / h);
+
+  // If shrinking, give the stage more horizontal room first (fewer line
+  // wraps usually means less height needed), then re-measure and re-scale.
+  if (scale < 0.999) {
+    const widerW = Math.min(availW / scale, availW * 1.7);
+    stage.style.width = widerW + 'px';
+    h = stage.scrollHeight;
+    scale = Math.min(1, availH / h);
+  }
+  stage.style.transform = `scale(${scale})`;
+}
+
+function fitActive() {
+  fitStage(document.querySelector('.slide.active'));
+}
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(fitActive, 80);
+});
+window.addEventListener('orientationchange', () => setTimeout(fitActive, 260));
+document.addEventListener('fullscreenchange', () => setTimeout(fitActive, 80));
+document.addEventListener('webkitfullscreenchange', () => setTimeout(fitActive, 80));
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => setTimeout(fitActive, 30));
+}
+
 function go(dir) {
   const nxt = cur+dir;
   if(nxt<0||nxt>=N) return;
   cur=nxt;
   render();
   onEnter(cur);
+  fitActive();
 }
 
-function goTo(idx) { cur=idx; render(); onEnter(cur); }
+function goTo(idx) { cur=idx; render(); onEnter(cur); fitActive(); }
 
 // Init dots
 (function(){
@@ -792,6 +856,8 @@ document.addEventListener('webkitfullscreenchange', onFsChange);
 window.togglePresent = togglePresent;
 
 onEnter(0);
+fitActive();
+window.addEventListener('load', () => setTimeout(fitActive, 50));
 </script>
 </body>
 </html>
