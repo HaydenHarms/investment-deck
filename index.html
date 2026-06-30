@@ -52,7 +52,7 @@ body {
 #slides { flex:1; position:relative; overflow:hidden; min-height:0; }
 .slide {
   position:absolute; inset:0;
-  display:flex; justify-content:center; align-items:center;
+  display:flex; justify-content:center; align-items:flex-start;
   overflow:hidden;
   padding:18px calc(18px + env(safe-area-inset-right)) 10px calc(18px + env(safe-area-inset-left));
   opacity:0; pointer-events:none;
@@ -727,6 +727,7 @@ function fitStage(slideEl) {
   const stage = slideEl.querySelector('.stage');
   if (!stage) return;
   stage.style.transform = 'none';
+  stage.style.marginTop = '0px';
   stage.style.width = '';
   const rect = slideEl.getBoundingClientRect();
   const cs = getComputedStyle(slideEl);
@@ -749,6 +750,15 @@ function fitStage(slideEl) {
     scale = Math.min(1, availH / h);
   }
   stage.style.transform = `scale(${scale})`;
+
+  // Stage is always top-anchored by the parent flexbox (align-items:flex-start)
+  // so scaling never pushes content above the visible area. When there's
+  // genuine leftover vertical space (content shorter than the screen, e.g.
+  // the title/close slides), center it explicitly via margin instead of
+  // relying on flex to center the pre-scale box.
+  const renderedH = h * scale;
+  const leftover = availH - renderedH;
+  stage.style.marginTop = leftover > 0 ? (leftover / 2) + 'px' : '0px';
 }
 
 function fitActive() {
